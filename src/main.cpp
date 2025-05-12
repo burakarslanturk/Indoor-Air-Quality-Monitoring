@@ -14,7 +14,7 @@
 #define SDS_TX_PIN 17       // ESP32 TX -> SDS RX
 
 // WiFi Ayarları
-const char* ssid = "Burak";  // WiFi Adı
+const char* ssid = "Burak";           // WiFi Adı
 const char* password = "burak1234";   // WiFi Şifresi
 
 // MQTT Ayarları
@@ -55,7 +55,7 @@ PubSubClient client(espClientSecure);
 unsigned long lastMeasurementTime = 0;
 unsigned long lastBaselineSaveTime = 0;
 unsigned long lastSdsReadAttempt = 0;   // Son SDS okuma denemesi zamanı
-bool sdsNeedsReading = false;           // SDS okuması gerekiyor mu?
+bool sdsNeedsReading = false;           // SDS okuması gerekiyor mu
 unsigned long sdsWakeUpTime = 0;        // SDS'in uyandırıldığı zaman
 
 // --- FONKSİYON PROTOTİPLERİ ---
@@ -264,14 +264,14 @@ bool manage_and_read_sds011(float &pm25_ref, float &pm10_ref) {
           pm10_ref = pmResult.pm10;
           Serial.printf("SDS011: Read success -> PM2.5=%.1f ug/m3, PM10=%.1f ug/m3\n", pm25_ref, pm10_ref);
           readSuccess = true;
-      } else {
+        } else {
           Serial.print("SDS011: Query failed! Status: ");
           // Serial.println(SdsDustSensor::statusToString(measurement.status)); // Eski kod
           Serial.println(pmResult.statusToString()); // Yeni kod: Durumu string olarak yazdır
           pm25_ref = -1.0; // Hata durumunda varsayılan değerler
           pm10_ref = -1.0;
           readSuccess = false;
-      }
+        }
       // --- /DÜZELTME ---
 
       Serial.println("SDS011: Putting sensor back to sleep.");
@@ -280,7 +280,7 @@ bool manage_and_read_sds011(float &pm25_ref, float &pm10_ref) {
        if (!sleepResult.isOk()) {                      // Genel iletişim hatası var mı?
           Serial.print("SDS011: Sleep command failed! Error: ");
           Serial.println(sleepResult.statusToString()); // Hatayı string olarak yazdır
-      } else if (sleepResult.isWorking()) {           // Başarılı ama hala çalışıyor mu?
+        } else if (sleepResult.isWorking()) {           // Başarılı ama hala çalışıyor mu?
            Serial.println("SDS011: Sleep command sent, but sensor didn't confirm it's sleeping.");
        } else {
             Serial.println("SDS011: Sensor went to sleep successfully.");
