@@ -1,7 +1,7 @@
 #ifndef MQTT_HANDLER_H
 #define MQTT_HANDLER_H
 
-#include <Arduino.h> // String için
+#include <Arduino.h>
 
 // Fonksiyon prototipleri
 void setup_mqtt_client();

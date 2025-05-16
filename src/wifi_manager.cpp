@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
-#include "config.h" // ssid ve password için
+#include "config.h"
 #include "wifi_manager.h"
 
 // WiFi Bağlantı Fonksiyonu

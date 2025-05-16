@@ -18,9 +18,9 @@ struct SensorData {
 
 void setup_sensors();
 void manage_sensors_and_read_data(SensorData &data); // Tüm sensör okumalarını yapar ve veriyi doldurur
-void periodic_sensor_tasks(); // Baseline kaydetme gibi periyodik işler için
+void periodic_sensor_tasks();                        // Baseline kaydetme gibi periyodik işler için
 
-// Bu fonksiyonlar artık sensor_manager içinde dahili olacak veya 
+// Bu fonksiyonlar artık sensor_manager içinde dahili olacak veya
 // manage_sensors_and_read_data tarafından yönetilecek.
 // uint32_t getAbsoluteHumidity(float temperature, float humidity); // Dahili olabilir
 // bool manage_and_read_sds011(float &pm25_ref, float &pm10_ref); // manage_sensors_and_read_data içinde hallolacak

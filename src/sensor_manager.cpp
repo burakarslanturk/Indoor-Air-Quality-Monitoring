@@ -1,18 +1,18 @@
 #include "sensor_manager.h"
-#include "config.h" // Pin tanımları ve zamanlama sabitleri için
+#include "config.h" 
 #include "Adafruit_SHT31.h"
 #include "Adafruit_SGP30.h"
 #include <Preferences.h> 
 #include <SdsDustSensor.h>
-#include <Wire.h> // I2C için
+#include <Wire.h>
 
 // Sensör Nesneleri 
 Adafruit_SHT31 sht31 = Adafruit_SHT31();
 Adafruit_SGP30 sgp;
-SdsDustSensor sds(Serial2); // Serial2'yi doğrudan kullanıyoruz
-HardwareSerial& sdsSerial = Serial2; // Referans olarak da tutabiliriz, sds(Serial2) yeterli olabilir.
-                                    // SdsDustSensor kütüphanesi Serial2'yi doğrudan alıyorsa bu satıra gerek kalmaz.
-                                    // Şimdilik bırakalım, sds.begin() öncesi sdsSerial.begin() için.
+SdsDustSensor sds(Serial2);           // Serial2'yi doğrudan kullanıyoruz
+HardwareSerial& sdsSerial = Serial2;  // Referans olarak da tutabiliriz, sds(Serial2) yeterli olabilir.
+                                      // SdsDustSensor kütüphanesi Serial2'yi doğrudan alıyorsa bu satıra gerek kalmaz.
+                                      // Şimdilik bırakalım, sds.begin() öncesi sdsSerial.begin() için.
 
 // NVS Yönetimi için Nesne
 Preferences preferences;
@@ -190,7 +190,7 @@ static bool read_sds011_data(float &pm25_ref, float &pm10_ref) {
     pm25_ref = -1.0; // Varsayılan hata değeri
     pm10_ref = -1.0; // Varsayılan hata değeri
 
-    // Adım 1: Okuma zamanı geldi mi ve sensör zaten uyanık değil mi?
+    // Okuma zamanı geldi mi ve sensör zaten uyanık mı?
     if (!sdsNeedsReading && (currentTime - lastSdsReadAttempt >= SDS_READ_INTERVAL)) {
         Serial.println("SDS011: Waking up sensor...");
         WorkingStateResult wakeupResult = sds.wakeup();
@@ -207,7 +207,7 @@ static bool read_sds011_data(float &pm25_ref, float &pm10_ref) {
         lastSdsReadAttempt = currentTime; 
     }
 
-    // Adım 2: Sensör uyanık mı ve ısınma süresi geçti mi?
+    // Sensör uyanık mı ve ısınma süresi geçti mi?
     if (sdsNeedsReading && (currentTime - sdsWakeUpTime >= SDS_WARM_UP_TIME)) {
         Serial.println("SDS011: Warm-up complete. Querying data...");
         PmResult pmResult = sds.queryPm(); 

@@ -1,10 +1,10 @@
 #include "mqtt_handler.h"
 #include "config.h"
-#include <WiFiClientSecure.h>   // Bu .cpp dosyasında gerekli
-#include <PubSubClient.h>       // Bu .cpp dosyasında gerekli
-#include <Arduino.h>            // Serial, random, String vs. için
+#include <WiFiClientSecure.h>
+#include <PubSubClient.h>
+#include <Arduino.h>
 
-// WiFi ve MQTT için Nesneler (bu modül içinde tanımlanacak)
+// WiFi ve MQTT için Nesneler
 WiFiClientSecure espClientSecure;
 PubSubClient client(espClientSecure);
 
@@ -47,7 +47,7 @@ void connect_mqtt_if_needed() {
 
 // MQTT'ye Veri Yayınlama Fonksiyonu
 void publish_mqtt_data(float temp, float hum, uint16_t tvoc, uint16_t eco2, float pm25, float pm10) {
-    // Önce bağlantıyı kontrol et, yoksa bağlanmayı dene (non-blocking)
+    // Önce bağlantıyı kontrol et, yoksa bağlanmayı dene
     connect_mqtt_if_needed(); 
     delay(100); // MQTT bağlantısının oturması veya deneme sonrası için kısa bir bekleme
                 // connect_mqtt_if_needed blocking olmadığı için burası kritik olabilir.
@@ -84,7 +84,7 @@ void publish_mqtt_data(float temp, float hum, uint16_t tvoc, uint16_t eco2, floa
     }
     // PM2.5 değerini kontrol et ve gönder
     if (pm25 >= 0.0) { // Geçerli okuma varsa (hata durumunda -1.0 geliyordu)
-        dtostrf(pm25, 1, 1, buffer); // 1 ondalık basamak
+        dtostrf(pm25, 1, 1, buffer);
         client.publish(mqtt_topic_pm25, buffer);
     }
     // PM10 değerini kontrol et ve gönder
