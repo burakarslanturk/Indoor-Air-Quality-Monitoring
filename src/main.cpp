@@ -5,21 +5,22 @@
 #include "sensor_manager.h"
 
 // WiFi Ayarları (config.h'den extern ile geliyor, burada tanımlanıyor)
-const char* ssid = "Burak";           // WiFi Adı
-const char* password = "burak1234";   // WiFi Şifresi
+const char* ssid = "Xiaomi 12 Pro";           // WiFi Adı
+const char* password = "12345678";   // WiFi Şifresi
 
 // MQTT Ayarları (config.h'den extern ile geliyor, burada tanımlanıyor)
-const char* mqtt_server = "164e3ba85ffa4014a1a1f22ed2dc46ee.s1.eu.hivemq.cloud";      // HiveMQ Cloud URL
-const int mqtt_port = 8883;                                                           // MQTT portu (SSL/TLS için 8883)
-const char* mqtt_client_id = "ESP32_IAQ_Monitor_Burak";                               // Broker'da benzersiz olmalı
-const char* mqtt_topic_temp = "iaq/ofis/temperature";                                 // MQTT topicler
-const char* mqtt_topic_hum = "iaq/ofis/humidity";
-const char* mqtt_topic_tvoc = "iaq/ofis/tvoc";
-const char* mqtt_topic_eco2 = "iaq/ofis/eco2";
-const char* mqtt_topic_pm25 = "iaq/ofis/pm25";
-const char* mqtt_topic_pm10 = "iaq/ofis/pm10";
-const char* mqtt_user = "esp32_iaq";                                                  // Broker username
-const char* mqtt_password = "Burak2255";                                              // Broker password
+const char* mqtt_server = "mqtt.eu.thingsboard.cloud";               // ThingsBoard server address
+const int mqtt_port = 8883;                                          // MQTT portu (1883 for non-SSL, 8883 for SSL/TLS)
+const char* mqtt_client_id = "ESP32_IAQ_Monitor_Burak";              // Broker'da benzersiz olmalı
+const char* mqtt_topic_telemetry = "v1/devices/me/telemetry";        // ThingsBoard telemetry topic
+// const char* mqtt_topic_temp = "iaq/ofis/temperature";             // MQTT topicler
+// const char* mqtt_topic_hum = "iaq/ofis/humidity";
+// const char* mqtt_topic_tvoc = "iaq/ofis/tvoc";
+// const char* mqtt_topic_eco2 = "iaq/ofis/eco2";
+// const char* mqtt_topic_pm25 = "iaq/ofis/pm25";
+// const char* mqtt_topic_pm10 = "iaq/ofis/pm10";
+const char* mqtt_user = "p4mutqhfjy31a9cvuyiz";                      // ThingsBoard device access token
+const char* mqtt_password = "";                                      // ThingsBoard typically uses the access token as username, password can be empty
 
 // Zamanlama için Değişkenler (Sadece ölçüm aralığı için olan main'de kalacak)
 unsigned long lastMeasurementTime = 0;

@@ -3,6 +3,7 @@
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 #include <Arduino.h>
+#include <ArduinoJson.h> // For JSON payload
 
 // WiFi ve MQTT için Nesneler
 WiFiClientSecure espClientSecure;
@@ -58,39 +59,50 @@ void publish_mqtt_data(float temp, float hum, uint16_t tvoc, uint16_t eco2, floa
         return; // Bağlanamazsa fonksiyondan çık
     }
 
-    // Değerleri string'e çevirmek için buffer değişkeni
-    char buffer[16];
+    // JSON belgesi oluştur
+    StaticJsonDocument<256> doc; // JSON kapasitesini ihtiyaca göre ayarlayın
 
-    // Sıcaklık değerini kontrol et ve gönder
+    // Sıcaklık değerini kontrol et ve JSON belgesine ekle
     if (!isnan(temp)) {
-        dtostrf(temp, 1, 2, buffer);
-        client.publish(mqtt_topic_temp, buffer);
+        doc["temperature"] = temp;
     }
-    // Nem değerini kontrol et ve gönder
+    
+    // Nem değerini kontrol et ve JSON belgesine ekle
     if (!isnan(hum)) {
-        dtostrf(hum, 1, 2, buffer);
-        client.publish(mqtt_topic_hum, buffer);
+        doc["humidity"] = hum;
     }
-    // TVOC değerni kontrol et ve gönder
-    if (tvoc < 60000) { // 0 da geçerli bir TVOC olabilir, SGP30'un başlangıç değeri.
-       snprintf(buffer, sizeof(buffer), "%d", tvoc);
-       client.publish(mqtt_topic_tvoc, buffer);
+
+    // TVOC değerini kontrol et ve JSON belgesine ekle
+    if (tvoc < 60000) { 
+       doc["tvoc"] = tvoc;
     }
-    // eCO2 değerini kontrol et ve gönder
-    // SGP30 için eCO2 minimum 400ppm'dir. 0 genellikle başlangıç/hata durumudur.
+
+    // eCO2 değerini kontrol et ve JSON belgesine ekle
     if (eco2 >= 400 && eco2 < 60000) { 
-       snprintf(buffer, sizeof(buffer), "%d", eco2);
-       client.publish(mqtt_topic_eco2, buffer);
+       doc["eco2"] = eco2;
     }
-    // PM2.5 değerini kontrol et ve gönder
-    if (pm25 >= 0.0) { // Geçerli okuma varsa (hata durumunda -1.0 geliyordu)
-        dtostrf(pm25, 1, 1, buffer);
-        client.publish(mqtt_topic_pm25, buffer);
+
+    // PM2.5 değerini kontrol et ve JSON belgesine ekle
+    if (pm25 >= 0.0) { 
+        doc["pm25"] = pm25;
     }
-    // PM10 değerini kontrol et ve gönder
-    if (pm10 >= 0.0) { // Geçerli okuma varsa
-        dtostrf(pm10, 1, 1, buffer);
-        client.publish(mqtt_topic_pm10, buffer);
+
+    // PM10 değerini kontrol et ve JSON belgesine ekle
+    if (pm10 >= 0.0) { 
+        doc["pm10"] = pm10;
+    }
+
+    // JSON'u bir string'e serialize et
+    char jsonBuffer[256];
+    size_t n = serializeJson(doc, jsonBuffer);
+
+    // JSON payload'ını yayınla
+    if (n > 0) {
+        client.publish(mqtt_topic_telemetry, jsonBuffer, n);
+        Serial.print("Published JSON to ThingsBoard: ");
+        Serial.println(jsonBuffer);
+    } else {
+        Serial.println("Failed to serialize JSON or JSON is empty.");
     }
 }
 

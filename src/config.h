@@ -14,12 +14,7 @@ extern const char* password;
 extern const char* mqtt_server;
 extern const int mqtt_port;
 extern const char* mqtt_client_id;
-extern const char* mqtt_topic_temp;
-extern const char* mqtt_topic_hum;
-extern const char* mqtt_topic_tvoc;
-extern const char* mqtt_topic_eco2;
-extern const char* mqtt_topic_pm25;
-extern const char* mqtt_topic_pm10;
+extern const char* mqtt_topic_telemetry;
 extern const char* mqtt_user;
 extern const char* mqtt_password;
 
