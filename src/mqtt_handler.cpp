@@ -6,15 +6,15 @@
 #include <ArduinoJson.h> // For JSON payload
 
 // WiFi ve MQTT için Nesneler
-WiFiClientSecure espClientSecure;
-PubSubClient client(espClientSecure);
+WiFiClient espClient;
+PubSubClient client(espClient);
 
 // MQTT Client Ayarları
 void setup_mqtt_client() {
     client.setServer(mqtt_server, mqtt_port);
     // TLS/SSL bağlantısı için sertifika doğrulamasını pasif hale getir.(şimdilik)
     // Daha güvenli bir yöntem için buraya CA sertifikası eklenmeli.
-    espClientSecure.setInsecure(); 
+    //espClient.setInsecure(); 
     randomSeed(micros());   // MQTT Client ID eşsiz yapmak için.
 }
 

@@ -5,12 +5,12 @@
 #include "sensor_manager.h"
 
 // WiFi Ayarları (config.h'den extern ile geliyor, burada tanımlanıyor)
-const char* ssid = "Xiaomi 12 Pro";           // WiFi Adı
-const char* password = "12345678";   // WiFi Şifresi
+const char* ssid = "Burak";           // WiFi Adı
+const char* password = "burak1234";   // WiFi Şifresi
 
 // MQTT Ayarları (config.h'den extern ile geliyor, burada tanımlanıyor)
 const char* mqtt_server = "mqtt.eu.thingsboard.cloud";               // ThingsBoard server address
-const int mqtt_port = 8883;                                          // MQTT portu (1883 for non-SSL, 8883 for SSL/TLS)
+const int mqtt_port = 1883;                                          // MQTT portu (1883 for non-SSL, 8883 for SSL/TLS)
 const char* mqtt_client_id = "ESP32_IAQ_Monitor_Burak";              // Broker'da benzersiz olmalı
 const char* mqtt_topic_telemetry = "v1/devices/me/telemetry";        // ThingsBoard telemetry topic
 // const char* mqtt_topic_temp = "iaq/ofis/temperature";             // MQTT topicler
